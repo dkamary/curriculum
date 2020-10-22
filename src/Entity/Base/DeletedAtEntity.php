@@ -33,6 +33,13 @@ trait DeletedAtEntity
         return $this->deletedAt;
     }
 
+    public function setDeletedAt($deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
     /**
      * Set inactive the entity
      *

@@ -49,7 +49,7 @@ class AssetController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="asset_show", methods={"GET"})
+     * @Route("/{id}", name="asset_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Asset $asset): Response
     {
@@ -83,7 +83,7 @@ class AssetController extends AbstractController
      */
     public function delete(Request $request, Asset $asset): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$asset->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $asset->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($asset);
             $entityManager->flush();

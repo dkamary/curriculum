@@ -49,7 +49,7 @@ class LanguageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="language_show", methods={"GET"})
+     * @Route("/{id}", name="language_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Language $language): Response
     {
@@ -83,7 +83,7 @@ class LanguageController extends AbstractController
      */
     public function delete(Request $request, Language $language): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$language->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $language->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($language);
             $entityManager->flush();
