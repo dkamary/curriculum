@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit UserMotivation{% endblock %}
+
+{% block body %}
+    <h1>Edit UserMotivation</h1>
+
+    {{ include('user_motivation/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('user_motivation_index') }}">back to list</a>
+
+    {{ include('user_motivation/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LanguageLevel{% endblock %}
+
+{% block body %}
+    <h1>LanguageLevel</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ language_level.id }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ language_level.value }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ language_level.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('language_level_index') }}">back to list</a>
+
+    <a href="{{ path('language_level_edit', {'id': language_level.id}) }}">edit</a>
+
+    {{ include('language_level/_delete_form.html.twig') }}
+{% endblock %}

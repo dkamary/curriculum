@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LanguageLevel{% endblock %}
+
+{% block body %}
+    <h1>Create new LanguageLevel</h1>
+
+    {{ include('language_level/_form.html.twig') }}
+
+    <a href="{{ path('language_level_index') }}">back to list</a>
+{% endblock %}

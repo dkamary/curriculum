@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LanguageLevel index{% endblock %}
+
+{% block body %}
+    <h1>LanguageLevel index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Value</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for language_level in language_levels %}
+            <tr>
+                <td>{{ language_level.id }}</td>
+                <td>{{ language_level.value }}</td>
+                <td>{{ language_level.name }}</td>
+                <td>
+                    <a href="{{ path('language_level_show', {'id': language_level.id}) }}">show</a>
+                    <a href="{{ path('language_level_edit', {'id': language_level.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('language_level_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserMotivation index{% endblock %}
+
+{% block body %}
+    <h1>UserMotivation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Presentation</th>
+                <th>Travel</th>
+                <th>Destinations</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user_motivation in user_motivations %}
+            <tr>
+                <td>{{ user_motivation.id }}</td>
+                <td>{{ user_motivation.presentation }}</td>
+                <td>{{ user_motivation.travel ? 'Yes' : 'No' }}</td>
+                <td>{{ user_motivation.destinations }}</td>
+                <td>
+                    <a href="{{ path('user_motivation_show', {'id': user_motivation.id}) }}">show</a>
+                    <a href="{{ path('user_motivation_edit', {'id': user_motivation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_motivation_new') }}">Create new</a>
+{% endblock %}

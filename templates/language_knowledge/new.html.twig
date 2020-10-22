@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LanguageKnowledge{% endblock %}
+
+{% block body %}
+    <h1>Create new LanguageKnowledge</h1>
+
+    {{ include('language_knowledge/_form.html.twig') }}
+
+    <a href="{{ path('language_knowledge_index') }}">back to list</a>
+{% endblock %}

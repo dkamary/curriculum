@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LanguageKnowledge{% endblock %}
+
+{% block body %}
+    <h1>LanguageKnowledge</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ language_knowledge.id }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ language_knowledge.createdAt ? language_knowledge.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ language_knowledge.updatedAt ? language_knowledge.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('language_knowledge_index') }}">back to list</a>
+
+    <a href="{{ path('language_knowledge_edit', {'id': language_knowledge.id}) }}">edit</a>
+
+    {{ include('language_knowledge/_delete_form.html.twig') }}
+{% endblock %}

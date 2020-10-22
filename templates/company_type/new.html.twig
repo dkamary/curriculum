@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CompanyType{% endblock %}
+
+{% block body %}
+    <h1>Create new CompanyType</h1>
+
+    {{ include('company_type/_form.html.twig') }}
+
+    <a href="{{ path('company_type_index') }}">back to list</a>
+{% endblock %}

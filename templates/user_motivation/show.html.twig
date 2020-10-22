@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserMotivation{% endblock %}
+
+{% block body %}
+    <h1>UserMotivation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user_motivation.id }}</td>
+            </tr>
+            <tr>
+                <th>Presentation</th>
+                <td>{{ user_motivation.presentation }}</td>
+            </tr>
+            <tr>
+                <th>Travel</th>
+                <td>{{ user_motivation.travel ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Destinations</th>
+                <td>{{ user_motivation.destinations }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_motivation_index') }}">back to list</a>
+
+    <a href="{{ path('user_motivation_edit', {'id': user_motivation.id}) }}">edit</a>
+
+    {{ include('user_motivation/_delete_form.html.twig') }}
+{% endblock %}

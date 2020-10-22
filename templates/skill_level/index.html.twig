@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SkillLevel index{% endblock %}
+
+{% block body %}
+    <h1>SkillLevel index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Value</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for skill_level in skill_levels %}
+            <tr>
+                <td>{{ skill_level.id }}</td>
+                <td>{{ skill_level.value }}</td>
+                <td>{{ skill_level.name }}</td>
+                <td>
+                    <a href="{{ path('skill_level_show', {'id': skill_level.id}) }}">show</a>
+                    <a href="{{ path('skill_level_edit', {'id': skill_level.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('skill_level_new') }}">Create new</a>
+{% endblock %}
