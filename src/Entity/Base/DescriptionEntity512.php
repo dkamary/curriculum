@@ -10,7 +10,7 @@ trait DescriptionEntity512
      * Entity's description
      *
      * @var string
-     * @ORM\Column(type="string", length=512, unique=true)
+     * @ORM\Column(type="string", length=512)
      */
     private $description;
 

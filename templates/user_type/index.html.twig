@@ -1,18 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'index/index.html.twig' %}
 
-{% block title %}UserType index{% endblock %}
+{% block title %}Type Utilisateur{% endblock %}
 
-{% block body %}
-    <h1>UserType index</h1>
+{% block featured %}{% endblock %}
+        
+{% block popular %}{% endblock %}
+        
+{% block features_categories %}{% endblock %}
+
+{% block content %}
+    <h2 id="page-title">Liste des types utilisateurs</h2>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Nom</th>
                 <th>Description</th>
-                <th>DeletedAt</th>
-                <th>IsActive</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,20 +26,18 @@
                 <td>{{ user_type.id }}</td>
                 <td>{{ user_type.name }}</td>
                 <td>{{ user_type.description }}</td>
-                <td>{{ user_type.deletedAt ? user_type.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user_type.isActive ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('user_type_show', {'id': user_type.id}) }}">show</a>
-                    <a href="{{ path('user_type_edit', {'id': user_type.id}) }}">edit</a>
+                    <a href="{{ path('user_type_show', {'id': user_type.id}) }}">Afficher</a>
+                    <a href="{{ path('user_type_edit', {'id': user_type.id}) }}">Editer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="4">Aucun type utilisateur trouve</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('user_type_new') }}">Create new</a>
+    <a href="{{ path('user_type_new') }}">Nouveau type utilisateur</a>
 {% endblock %}

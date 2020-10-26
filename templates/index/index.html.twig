@@ -14,58 +14,60 @@
     {% endblock %}
 </head>
 <body>
-    {% block header %}
-        {% include "index/header.html.twig" %}
-    {% endblock %}
+    {% block body %}
+        {% block header %}
+            {% include "index/header.html.twig" %}
+        {% endblock %}
 
-	{% block search_banner %}
-        {% include "index/search-banner.html.twig" %}
-    {% endblock %}
+        {% block search_banner %}
+            {% include "index/search-banner.html.twig" %}
+        {% endblock %}
 
-	{% block featured %}
-        {% include "index/featured.html.twig" %}
-    {% endblock %}
-			
-	{% block popular %}
-        {% include "index/popular.html.twig" %}
-    {% endblock %}
-			
-	{% block features_categories %}
-        {% include "index/featured-categories.html.twig" %}
-    {% endblock %}
-			
-    {% block main_container %}
-        <!-- Start post Area -->
-        <section class="post-area section-gap">
-            <div class="container">
-                {% block content_container %}
-                    <div class="row justify-content-center d-flex">
-                        <div class="col-lg-8 post-list">
-                            {% block content %}
-                                {% include "index/content.html.twig" %}
-                            {% endblock %}
+        {% block featured %}
+            {% include "index/featured.html.twig" %}
+        {% endblock %}
+                
+        {% block popular %}
+            {{ render(path('candidate_carousel')) }}
+        {% endblock %}
+                
+        {% block features_categories %}
+            {{ render(path('skill_category_featured')) }}
+        {% endblock %}
+                
+        {% block main_container %}
+            <!-- Start post Area -->
+            <section class="post-area section-gap">
+                <div class="container">
+                    {% block content_container %}
+                        <div class="row justify-content-center d-flex">
+                            <div class="col-lg-8 post-list">
+                                {% block content %}
+                                    {{ render(path('candidate_list')) }}
+                                {% endblock %}
+                            </div>
+                            <div class="col-lg-4 sidebar">
+                                {% block sidebar %}
+                                    {% include "index/sidebar.html.twig" %}
+                                {% endblock %}							
+                            </div>
                         </div>
-                        <div class="col-lg-4 sidebar">
-                            {% block sidebar %}
-                                {% include "index/sidebar.html.twig" %}
-                            {% endblock %}							
-                        </div>
-                    </div>
-                {% endblock %}
-            </div>	
-        </section>
-    {% endblock %}
-	
-    {% block call2action %}
-        {% include "index/call2action.html.twig" %}
-    {% endblock %}
+                    {% endblock %}
+                </div>	
+            </section>
+        {% endblock %}
+        
+        {% block call2action %}
+            {% include "index/call2action.html.twig" %}
+        {% endblock %}
 
-	{% block download %}
-        {% include "index/download.html.twig" %}
-    {% endblock %}
-		
-    {% block footer %}
-        {% include "index/footer.html.twig" %}
+        {% block download %}
+            {% include "index/download.html.twig" %}
+        {% endblock %}
+            
+        {% block footer %}
+            {% include "index/footer.html.twig" %}
+        {% endblock %}
     {% endblock %}
 
     {% block javascripts %}

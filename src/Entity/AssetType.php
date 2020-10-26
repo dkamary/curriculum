@@ -27,6 +27,11 @@ class AssetType
      */
     private $mime;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $extensions;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -40,6 +45,18 @@ class AssetType
     public function setMime(?string $mime): self
     {
         $this->mime = $mime;
+
+        return $this;
+    }
+
+    public function getExtensions(): ?string
+    {
+        return $this->extensions;
+    }
+
+    public function setExtensions(string $extensions): self
+    {
+        $this->extensions = $extensions;
 
         return $this;
     }

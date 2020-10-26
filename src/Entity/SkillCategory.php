@@ -29,6 +29,16 @@ class SkillCategory
      */
     private $skills;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Asset::class)
+     */
+    private $icon;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Asset::class)
+     */
+    private $banner;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
@@ -66,6 +76,30 @@ class SkillCategory
                 $skill->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIcon(): ?Asset
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?Asset $icon): self
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getBanner(): ?Asset
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?Asset $banner): self
+    {
+        $this->banner = $banner;
 
         return $this;
     }

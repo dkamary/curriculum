@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\SkillCategory;
 use App\Form\SkillCategoryType;
 use App\Repository\SkillCategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SkillCategoryController extends AbstractController
 {
+    const DEFAULT_COUNT = 6;
+
     /**
      * @Route("/", name="skill_category_index", methods={"GET"})
      */
@@ -49,7 +52,7 @@ class SkillCategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="skill_category_show", methods={"GET"})
+     * @Route("/{id}", name="skill_category_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(SkillCategory $skillCategory): Response
     {
@@ -83,12 +86,33 @@ class SkillCategoryController extends AbstractController
      */
     public function delete(Request $request, SkillCategory $skillCategory): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$skillCategory->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $skillCategory->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($skillCategory);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('skill_category_index');
+    }
+
+    /**
+     * @Route("/featured/{count}", name="skill_category_featured", requirements={"count"="\d+"})
+     *
+     * @param integer $count
+     * @return Response
+     */
+    public function featured(
+        SkillCategoryRepository $skillCategoryRepository,
+        int $count = self::DEFAULT_COUNT
+    ): Response {
+        $categories = $skillCategoryRepository->findBy(
+            [],
+            ['name' => 'ASC'],
+            $count
+        );
+
+        return $this->render('skill_category/featured.html.twig', [
+            'categories' => $categories,
+        ]);
     }
 }

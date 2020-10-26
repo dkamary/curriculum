@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class IndexController extends AbstractController
@@ -14,6 +15,16 @@ class IndexController extends AbstractController
     {
         return $this->render('index/index.html.twig', [
             'controller_name' => 'IndexController',
+        ]);
+    }
+
+    /**
+     * @Route("/profile", name="user_profile", methods={"GET"})
+     */
+    public function profile(): Response
+    {
+        return $this->render('user/profile.html.twig', [
+            'user' => $this->getUser(),
         ]);
     }
 }

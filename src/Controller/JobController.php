@@ -49,7 +49,7 @@ class JobController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="job_show", methods={"GET"})
+     * @Route("/{id}", name="job_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Job $job): Response
     {
@@ -83,12 +83,24 @@ class JobController extends AbstractController
      */
     public function delete(Request $request, Job $job): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$job->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $job->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($job);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('job_index');
+    }
+
+    /**
+     * @Route("/list", name="job_list")
+     */
+    public function list(JobRepository $jobRepository): Response
+    {
+        $jobs = $jobRepository->findAll();
+
+        return $this->render('job/list.html.twig', [
+            'jobs' => $jobs,
+        ]);
     }
 }

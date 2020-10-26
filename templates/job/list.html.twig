@@ -1,0 +1,8 @@
+{# Job list #}
+{% if jobs|length > 0 %}
+    <ul class="cat-list">
+        {% for job in jobs %}
+            <li><a href="#">{{ job.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}

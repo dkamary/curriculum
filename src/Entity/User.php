@@ -6,14 +6,16 @@ use App\Entity\Base\CreatedAtEntity;
 use App\Entity\Base\DeletedAtEntity;
 use App\Entity\Base\UpdatedAtEntity;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
     use CreatedAtEntity;
     use UpdatedAtEntity;
@@ -37,12 +39,12 @@ class User
     private $login;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string")
      */
     private $password;
 
@@ -51,6 +53,11 @@ class User
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
@@ -139,6 +146,16 @@ class User
      */
     private $others;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Favorite::class, mappedBy="owner")
+     */
+    private $favorites;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Asset::class)
+     */
+    private $banner;
+
     public function __construct()
     {
         $this->assets = new ArrayCollection();
@@ -147,6 +164,7 @@ class User
         $this->trainings = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->others = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -530,5 +548,174 @@ class User
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Favorite[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+            $favorite->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->contains($favorite)) {
+            $this->favorites->removeElement($favorite);
+            // set the owning side to null (unless already changed)
+            if ($favorite->getOwner() === $this) {
+                $favorite->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getBanner(): ?Asset
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?Asset $banner): self
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    /**
+     * Get the Job desired by the User
+     *
+     * @return UserMotivation|null
+     */
+    public function getTheJob(): ?UserMotivation
+    {
+        $motivations = $this->getUserMotivations();
+
+        return (count($motivations) && isset($motivations[0])) ? $motivations[0] : null;
+    }
+
+    /**
+     * Get Featured knowledge
+     *
+     * @return array
+     */
+    public function getFeaturedKnowledge(): array
+    {
+        $others = $this->getOthers();
+        $list = [];
+        $max = 3;
+        $i = 0;
+        foreach ($others as $known) {
+            /**
+             * @var Other $known
+             */
+            $skills = $known->getOtherSkills();
+            foreach ($skills as $s) {
+                /**
+                 * @var OtherSkill $s
+                 */
+                $list[] = $s;
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * Get Experience
+     *
+     * @return float
+     */
+    public function getExperienceTime(): float
+    {
+        $experiences = $this->getExperiences();
+        $max = $min = null;
+        foreach ($experiences as $exp) {
+            /**
+             * @var Experience $exp
+             */
+            if (is_null($max)) {
+                $max = !is_null($exp->getEndTime()) ? $exp->getEndTime() : null;
+            } elseif (!is_null($exp->getEndTime()) && $max < $exp->getEndTime()) {
+                $max = $exp->getEndTime();
+            }
+            if (is_null($min)) {
+                $min = $exp->getStartTime();
+            } elseif ($min > $exp->getStartTime()) {
+                $min = $exp->getStartTime();
+            }
+        }
+        if (is_null($max)) {
+            $max = new DateTime('now');
+        }
+        if (is_null($min)) {
+            $min = new DateTime('now');
+        }
+        $diff = $max->diff($min, true);
+        $xp = $diff->y + ($diff->m / 12);
+
+        return $xp;
+    }
+
+    public function getFormattedAddress(): string
+    {
+        return $this->address . ', ' . $this->zipcode . ', ' . $this->town . ', ' . $this->getCountry()->getName();
     }
 }

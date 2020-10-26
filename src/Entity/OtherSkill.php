@@ -29,6 +29,12 @@ class OtherSkill
      */
     private $level;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Skill::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $skill;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +60,18 @@ class OtherSkill
     public function setLevel(?SkillLevel $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getSkill(): ?Skill
+    {
+        return $this->skill;
+    }
+
+    public function setSkill(?Skill $skill): self
+    {
+        $this->skill = $skill;
 
         return $this;
     }

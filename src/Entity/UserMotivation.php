@@ -43,6 +43,11 @@ class UserMotivation
      */
     private $destinations;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $jobTitle;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +109,18 @@ class UserMotivation
     public function setDestinations(?string $destinations): self
     {
         $this->destinations = $destinations;
+
+        return $this;
+    }
+
+    public function getJobTitle(): ?string
+    {
+        return $this->jobTitle;
+    }
+
+    public function setJobTitle(string $jobTitle): self
+    {
+        $this->jobTitle = $jobTitle;
 
         return $this;
     }
