@@ -1,0 +1,24 @@
+{# Candidate by category #}
+{% extends "index/index.html.twig" %}
+
+{% block title %}
+    {{ category.name }}
+{% endblock %}
+
+{% block content %}
+    {{ render(path('job_list')) }}
+
+    <div id="post-container">
+        {% for candidate in candidates %}
+            {% set features = candidate.featuredKnowledge %}
+            {% set myjob = candidate.theJob %}
+            {% set xp = candidate.experienceTime %}
+            {% include "candidate/single-post.html.twig" %}
+        {% else %}
+            <div class="single-post d-flex flex-row">
+                <div class="col-12">Il n'y a pas de candidat</div>
+            </div>
+        {% endfor %}
+    </div>
+    {% include "candidate/filter.html.twig" %}
+{% endblock %}

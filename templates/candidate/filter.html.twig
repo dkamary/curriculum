@@ -1,0 +1,7 @@
+{# candidate list filter #}
+<form id="form-filter" action="{{ actionFilter }}" method="GET">
+    <input type="hidden" name="page" value="{{ page }}" id="page">
+    <input type="hidden" name="perpage" value="{{ perPage }}" id="perpage">
+    <input type="hidden" name="job" value="{{ job is defined and job is not null ? job.id : '' }}" id="job">
+    <input type="hidden" name="category" value="{{ category is defined and category is not null ? category.id : '' }}" id="category">
+</form>

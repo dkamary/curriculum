@@ -1,44 +1,16 @@
 {# Candidate list #}
 {{ render(path('job_list')) }}
 
-{% for candidate in candidates %}
-    {% set features = candidate.featuredKnowledge %}
-    {% set job = candidate.theJob %}
-    {% set xp = candidate.experienceTime %}
-    <div class="single-post d-flex flex-row">
-        <div class="thumb">
-            <img src="{{ asset('img/post.png') }}" alt="">
-            {% if features|length > 0 %}
-                <ul class="tags">
-                    {% for known in features %}
-                        <li>
-                            <a href="#">{{ known.skill.name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+<div id="post-container">
+    {% for candidate in candidates %}
+        {% set features = candidate.featuredKnowledge %}
+        {% set myjob = candidate.theJob %}
+        {% set xp = candidate.experienceTime %}
+        {% include "candidate/single-post.html.twig" %}
+    {% else %}
+        <div class="single-post d-flex flex-row">
+            <div class="col-12">Il n'y a pas de candidat</div>
         </div>
-        <div class="details">
-            <div class="title d-flex flex-row justify-content-between">
-                <div class="titles">
-                    <a href="single.html"><h4>{{ job is not null ? job.jobTitle : candidate.firstname ~ ' ' ~ candidate.lastname }}</h4></a>
-                    <h6>{{ xp|format_number({fraction_digit: 1}) }} ans d'experience</h6>					
-                </div>
-                <ul class="btns">
-                    <li><a href="#"><span class="lnr lnr-heart"></span></a></li>
-                    <li><a href="#">Voir le CV</a></li>
-                </ul>
-            </div>
-            <p>
-                {{ job is not null ? job.presentation : '' }}
-            </p>
-            <h5>Contrat recherche : {{ job.job.name }}</h5>
-            <p class="address"><span class="lnr lnr-map"></span> {{ candidate.formattedAddress }}</p>
-            {# <p class="address"><span class="lnr lnr-database"></span> 15k - 25k</p> #}
-        </div>
-    </div>
-{% else %}
-    <div class="single-post d-flex flex-row">
-        <div class="col-12">Il n'y a pas de candidat</div>
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>
+{% include "candidate/filter.html.twig" %}

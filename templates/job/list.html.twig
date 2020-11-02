@@ -2,7 +2,7 @@
 {% if jobs|length > 0 %}
     <ul class="cat-list">
         {% for job in jobs %}
-            <li><a href="#">{{ job.name }}</a></li>
+            <li><a href="#" class="job-type-element" data-id="{{ job.id }}">{{ job.name }}</a></li>
         {% endfor %}
     </ul>
 {% endif %}

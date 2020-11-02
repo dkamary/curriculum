@@ -22,3 +22,11 @@
 .single-post .details {
     padding-left: 5px;
 }
+
+.post-list .cat-list li.active {
+    background-color: #49e4fa;
+}
+
+.post-list .cat-list li.active a {
+    color: #fff;
+}
